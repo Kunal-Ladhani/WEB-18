@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Backend</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="navbar">
+      <div><a href="./frontend.html" target="_blank">Frontend</a></div>
+      <div><a href="./backend.html" target="_blank">Backend</a></div>
+    </div>
+    <form id="investorForm">
+      <input id="imgURL" type="text" placeholder="Enter Image URL" />
+      <br />
+      <input id="name" type="text" placeholder="Investor Name" />
+      <br />
+      <input id="role" type="text" placeholder="Investor Role" />
+      <br />
+      <input id="companyLogo" type="text" placeholder="Company Logo URL" />
+      <br />
+      <input type="submit" />
+    </form>
+  </body>
+</html>
+
+<script>
+  document
+    .querySelector("#investorForm")
+    .addEventListener("submit", investorFun);
+
+  var investorObjArr = JSON.parse(localStorage.getItem("investorData")) || [];
+
+  function investorFun() {
+    event.preventDefault();
+
+    var investorObj = {
+      investorImg: investorForm.imgURL.value,
+      investorName: document.querySelector("#name").value,
+      investorRole: investorForm.role.value,
+      companyLogo: document.querySelector("#companyLogo").value,
+    };
+    investorObjArr.push(investorObj);
+    localStorage.setItem("investorData", JSON.stringify(investorObjArr));
+  }
+
+  // formId.InputId.value
+  // to get data directly from form
+</script>

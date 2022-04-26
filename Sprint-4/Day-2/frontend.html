@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Frontend</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      #container {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-template-rows: repeat(4, auto);
+        gap: 20px;
+      }
+      p + img {
+        height: 50px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="navbar">
+      <div><a href="./frontend.html" target="_blank">Frontend</a></div>
+      <div><a href="./backend.html" target="_blank">Backend</a></div>
+    </div>
+
+    <h1>Frontend</h1>
+  </body>
+</html>
+
+<script>
+  var investorObjArr = JSON.parse(localStorage.getItem("investorData"));
+  console.log(investorObjArr);
+
+  for (let i = 0; i < n; i++) {
+    console.log(investorObjArr[i].investorImg);
+    console.log(investorObjArr[i].investorName);
+    console.log(investorObjArr[i].investorRole);
+    console.log(investorObjArr[i].companyLogo);
+  }
+</script>
