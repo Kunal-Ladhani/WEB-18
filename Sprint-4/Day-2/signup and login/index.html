@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <style>
+      #container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      #container > #form {
+        display: flex;
+        flex-direction: column;
+        width: 20%;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <h1>Sign Up</h1>
+      <form id="form">
+        <input type="email" placeholder="Email" id="email" />
+        <br />
+        <input type="number" placeholder="Phone Number" id="number" />
+        <br />
+        <input type="password" placeholder="Password" id="password" />
+        <br />
+        <input type="submit" id="submit" value="Sign Up" />
+      </form>
+    </div>
+  </body>
+</html>
+
+<script>
+  document.querySelector("form").addEventListener("submit", signUpFun);
+
+  signUpData = JSON.parse(localStorage.getItem("personData")) || [];
+
+  function signUpFun() {
+    event.preventDefault();
+
+    var signUpObj = {
+      email: form.email.value,
+      phoneNum: form.number.value,
+      password: form.password.value,
+    };
+
+    signUpData.push(signUpObj);
+    localStorage.setItem("personData", JSON.stringify(signUpData));
+    window.location.href = "login.html";
+  }
+</script>

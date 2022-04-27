@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <style>
+      #container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      #container > #form {
+        display: flex;
+        flex-direction: column;
+        width: 20%;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="container">
+      <h1>Log In</h1>
+      <form id="form">
+        <input type="email" placeholder="Email" id="email" />
+        <br />
+        <input type="password" placeholder="Password" id="password" />
+        <br />
+        <input type="submit" id="submit" value="Log In" />
+      </form>
+    </div>
+  </body>
+</html>
+
+<script>
+  document.querySelector("form").addEventListener("submit", logInFun);
+
+  var signUpData = JSON.parse(localStorage.getItem("personData"));
+  var logInDataObj = {};
+
+  function logInFun() {
+    event.preventDefault();
+
+    logInDataObj = {
+      email: form.email.value,
+      password: form.password.value,
+    };
+    //console.log(logInDataObj);
+    var flag = false;
+    signUpData.forEach(function (elem, index) {
+      if (
+        elem.email === logInDataObj.email &&
+        elem.password === logInDataObj.password
+      )
+        flag = true;
+    });
+
+    if (flag === true) {
+      alert("Login Successful !");
+    } else {
+      alert("Wrong Information Entered !");
+    }
+  }
+</script>
