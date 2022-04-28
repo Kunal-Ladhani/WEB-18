@@ -5,11 +5,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
     <style>
-      h1 {
-        text-align: center;
-        margin-bottom: 50px;
-      }
       #container {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -19,6 +16,16 @@
     </style>
   </head>
   <body>
+    <div id="navbar">
+      <div><h2>Reebok</h2></div>
+      <div>
+        <h3><a href="./mens.html">Men</a></h3>
+        <h3><a href="./women.html">Women</a></h3>
+        <h3><a href="./login.html">Login</a></h3>
+        <h3><a href="./index.html">Signup</a></h3>
+        <h3><a href="./cart.html">Cart</a></h3>
+      </div>
+    </div>
     <h1>Women's Page</h1>
     <div id="container"></div>
   </body>
@@ -485,6 +492,8 @@
 
   displayProd(womenData);
 
+  var cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+
   function displayProd(data) {
     data.forEach(function (elem, index) {
       var div = document.createElement("div");
@@ -510,10 +519,35 @@
 
       var button = document.createElement("button");
       button.innerText = "ADD TO CART";
+      button.setAttribute("id", "addToCart");
+      button.addEventListener("click", function () {
+        addToCart(elem);
+      });
 
       div.append(img, prodName, prodStrikeOffPrice, prodPrice, button);
 
       document.querySelector("#container").append(div);
     });
+  }
+
+  function addToCart(elem) {
+    var len = cartItems.length;
+    var isInCart = false;
+
+    for (let index = 0; index < len; index++) {
+      if (cartItems[index].image_url === elem.image_url) {
+        isInCart = true;
+        break;
+      }
+    }
+
+    if (isInCart === true) {
+      alert("Item already added");
+    } else {
+      elem["itemQuantity"] = 1;
+      elem["totalPrice"] = elem.price;
+      cartItems.push(elem);
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    }
   }
 </script>

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cart</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      img {
+        height: 100px;
+        width: 100px;
+      }
+      input {
+        width: 40px;
+      }
+      #promoAndTotal,
+      #promo,
+      #total {
+        display: flex;
+      }
+      #promoAndTotal {
+        align-items: center;
+        justify-content: space-around;
+        font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+          sans-serif;
+      }
+      #promo {
+        width: auto;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid rebeccapurple;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 10px;
+        background-color: royalblue;
+        color: white;
+      }
+      #total {
+        width: auto;
+        justify-content: space-between;
+        align-items: center;
+        border: 1px solid rebeccapurple;
+        padding-left: 10px;
+        padding-right: 10px;
+        border-radius: 10px;
+        background-color: royalblue;
+        color: white;
+      }
+      #promoCode {
+        margin-left: 20px;
+        margin-right: 20px;
+        width: 100px;
+        height: 30px;
+      }
+      #cartTotal {
+        margin-left: 20px;
+      }
+      #promo > p {
+        font-size: 20px;
+        font-weight: 500;
+      }
+      #total > p {
+        font-size: 22px;
+        font-weight: 800;
+        color: white;
+      }
+      #total > p:last-child {
+        color: rgb(255, 74, 74);
+      }
+      #cartTotal {
+        margin-left: 80px;
+        margin-right: 10px;
+      }
+      #applyPromo {
+        height: 30px;
+        width: 100px;
+        background-color: whitesmoke;
+        border-radius: 5px;
+        color: red;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="navbar">
+      <div><h2>Reebok</h2></div>
+      <div>
+        <h3><a href="./mens.html">Men</a></h3>
+        <h3><a href="./women.html">Women</a></h3>
+        <h3><a href="./login.html">Login</a></h3>
+        <h3><a href="./index.html">Signup</a></h3>
+        <h3><a href="./cart.html">Cart</a></h3>
+      </div>
+    </div>
+
+    <h1>CART</h1>
+
+    <div id="promoAndTotal">
+      <div id="promo">
+        <p>Promo-code</p>
+        <input id="promoCode" type="text" placeholder="Promo Code" />
+        <button id="applyPromo">Apply Promo</button>
+      </div>
+      <div id="total">
+        <p>Cart Total</p>
+        <p id="cartTotal">$0</p>
+      </div>
+    </div>
+
+    <div id="container">
+      <table id="cartItems">
+        <thead>
+          <th id="prodImage">Product Image</th>
+          <th id="prodName">Product Name</th>
+          <th id="prodQuantity">Quantity</th>
+          <th id="prodPrice">Price</th>
+          <th id="prodDelete">Delete</th>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </body>
+
+  <script>
+    var cartItems = JSON.parse(localStorage.getItem("cartItems"));
+
+    var isPromoCodeApplied = false;
+
+    document
+      .querySelector("#applyPromo")
+      .addEventListener("click", applyPromoCode);
+
+    function applyPromoCode() {
+      var promoCode = document.querySelector("#promoCode").value;
+      if (promoCode === "masai30" && isPromoCodeApplied === false) {
+        isPromoCodeApplied = true;
+        cartTotal = 0.7 * Number(cartTotal);
+        showTotalCartValue(cartTotal);
+      } else if (promoCode != "masai30") {
+        alert("Promo Code not Available");
+      } else if (promoCode === "masai30" && isPromoCodeApplied === true) {
+        alert("Promo code already applied");
+      }
+      console.log(promoCode);
+      console.log(cartTotal);
+    }
+
+    var cartTotal = cartItems.reduce(function (acc, ele) {
+      return acc + Number(ele.totalPrice);
+    }, 0);
+
+    displayData(cartItems);
+
+    function displayData(data) {
+      data.forEach(function (elem, index) {
+        var tr = document.createElement("tr");
+
+        var td1 = document.createElement("td");
+        var img = document.createElement("img");
+        img.setAttribute("src", elem.image_url);
+        td1.append(img);
+
+        var td2 = document.createElement("td");
+        td2.innerText = elem.name;
+
+        var quantity = document.createElement("input");
+        quantity.setAttribute("type", "text");
+        quantity.setAttribute("value", elem.itemQuantity);
+        quantity.addEventListener("change", function () {
+          changeQuantity(elem);
+        });
+
+        var td3 = document.createElement("td");
+        td3.append(quantity);
+
+        var td4 = document.createElement("td");
+        td4.innerText = "$" + elem.totalPrice;
+
+        var td5 = document.createElement("td");
+        td5.innerText = "Delete";
+        td5.setAttribute("class", "deleteItem");
+        td5.addEventListener("click", function () {
+          deleteItem(elem, index);
+        });
+
+        tr.append(td1, td2, td3, td4, td5);
+
+        showTotalCartValue(cartTotal);
+
+        document.querySelector("tbody").append(tr);
+      });
+    }
+
+    function changeQuantity(elem) {
+      elem.itemQuantity = Number(event.target.value);
+      elem.totalPrice = elem.itemQuantity * elem.price;
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      window.location.reload();
+    }
+
+    function deleteItem(elem, index) {
+      cartItems.splice(index, 1);
+      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      window.location.reload();
+    }
+
+    function showTotalCartValue(cartTotal) {
+      document.querySelector("#cartTotal").innerText = cartTotal;
+    }
+  </script>
+</html>

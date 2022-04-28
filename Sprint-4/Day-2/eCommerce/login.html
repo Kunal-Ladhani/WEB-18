@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      #container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+      #container > #form {
+        display: flex;
+        flex-direction: column;
+        width: 20%;
+        align-items: center;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="navbar">
+      <div><h2>Reebok</h2></div>
+      <div>
+        <h3 id="men"><a href="">Men</a></h3>
+        <h3 id="women"><a href="">Women</a></h3>
+        <h3 id="login"><a href="./login.html">Login</a></h3>
+        <h3 id="signup"><a href="./index.html">Signup</a></h3>
+      </div>
+    </div>
+    <div id="container">
+      <h1>Log In</h1>
+      <form id="form">
+        <input type="email" placeholder="Email" id="email" />
+        <br />
+        <input type="password" placeholder="Password" id="password" />
+        <br />
+        <input type="submit" id="submit" value="Log In" />
+      </form>
+    </div>
+  </body>
+</html>
+
+<script>
+  var isLoggedIn = false;
+  document.querySelector("form").addEventListener("submit", logInFun);
+
+  var signUpData = JSON.parse(localStorage.getItem("personData")) || [];
+  var logInDataObj = {};
+  var men_link = document.querySelector("#men>a");
+  var women_link = document.querySelector("#women>a");
+
+  function logInFun() {
+    event.preventDefault();
+
+    logInDataObj = {
+      email: form.email.value,
+      password: form.password.value,
+    };
+
+    if (logInDataObj.email != "" && logInDataObj.password != "") {
+      var signUpDataLength = signUpData.length;
+      for (let idx = 0; idx < signUpDataLength; idx++) {
+        if (
+          signUpData[idx].email === logInDataObj.email &&
+          signUpData[idx].password === logInDataObj.password
+        ) {
+          isLoggedIn = true;
+          break;
+        }
+      }
+    }
+
+    if (isLoggedIn === true) {
+      alert("Login Successful !");
+      men_link.setAttribute("href", "./mens.html");
+      women_link.setAttribute("href", "./women.html");
+    } else {
+      alert("Wrong Information Entered !");
+      window.location.href = "login.html";
+    }
+  }
+</script>
